@@ -13,7 +13,7 @@ public class ExampleFracture : MonoBehaviour
         //Code loops through asteroids and fractures them on space
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            asteroids[counter].GetComponent<Fracture>().FractureObject();
+            asteroids[counter].GetComponent<Fracture>().OnDestroy();
             counter++;
         }
         if (Input.GetKey(KeyCode.I))
