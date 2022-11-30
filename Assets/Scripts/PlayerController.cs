@@ -5,18 +5,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField]
-    private float MaxSpeed;
-    [SerializeField]
-    private float AccelerationSpeed;
-    [SerializeField]
-    private float RotationSpeed;
-    [SerializeField]
-    private float HitRecoveryEasing;
+    [SerializeField] private float MaxSpeed;
+    [SerializeField] private float AccelerationSpeed;
+    [SerializeField] private float RotationSpeed;
+    [SerializeField] private float HitRecoveryEasing;
 
     [Header("Shooting")]
-    public GameObject Bullet;
-    public GameObject[] LaserSpawns;
+    [SerializeField] private float TargetPredictionFactor;
+    [SerializeField] private float MaxAutoAimAngle;
+    [SerializeField] private GameObject Bullet;
+    [SerializeField] private GameObject[] LaserSpawns;
+
+    private GameObject m_Target = null;
 
     private Rigidbody m_Rigidbody;
 
@@ -39,8 +39,26 @@ public class PlayerController : MonoBehaviour
     {
         foreach (GameObject spawn in LaserSpawns)
         {
-            Instantiate(Bullet, spawn.transform.position, 
-                Quaternion.Euler(transform.eulerAngles) * Quaternion.Euler(new Vector3(0.0f, 0.0f, 45.0f)));
+            Vector3 bulletDirection = transform.forward;
+
+            if (m_Target != null)
+            {
+                Rigidbody targetBody = m_Target.GetComponent<Rigidbody>();
+                Vector3 targetPosition = m_Target.transform.position;
+
+                if (Vector3.Angle(targetPosition.normalized, transform.forward) > MaxAutoAimAngle)
+                    bulletDirection = transform.forward;
+                else
+                {
+                    if (targetBody != null)
+                        targetPosition += targetBody.velocity.normalized * TargetPredictionFactor;
+                    bulletDirection = targetPosition - transform.position;
+                }
+            }    
+
+            GameObject instantiated = Instantiate(Bullet, transform.position, Quaternion.Euler(Vector3.zero));
+            instantiated.transform.LookAt(transform.position + bulletDirection);
+            instantiated.transform.position = spawn.transform.position;
         }
     }
 
@@ -57,4 +75,7 @@ public class PlayerController : MonoBehaviour
 
         m_Rigidbody.rotation *= Quaternion.Euler(rotation * Time.deltaTime * RotationSpeed);
     }
+
+    public void SetTarget(GameObject target) { m_Target = target; }
+    public void ResetTarget() { m_Target = null; }
 }

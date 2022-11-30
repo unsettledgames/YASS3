@@ -19,6 +19,7 @@ public class Fracture : MonoBehaviour
             Rigidbody rb = instantiatedFracture.transform.GetChild(i).GetComponent<Rigidbody>();
 
             rb.useGravity = false;
+            rb.isKinematic = false;
             rb.AddForce(new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)) * ExplosionForce,
                 ForceMode.Impulse);
         }

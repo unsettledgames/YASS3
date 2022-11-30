@@ -11,12 +11,14 @@ GameObject:
   - component: {fileID: 4545419513650620627}
   - component: {fileID: 8692049471087788532}
   - component: {fileID: 4189502860764083366}
-  - component: {fileID: 654043983684725406}
-  - component: {fileID: 7677147535206180335}
   - component: {fileID: 5676548842011287167}
+  - component: {fileID: 8114873054065938523}
   - component: {fileID: 5676548842011287137}
+  - component: {fileID: 654043983684725406}
+  - component: {fileID: -1825771947210607406}
+  - component: {fileID: -7463730800611265906}
   m_Layer: 0
-  m_Name: Rock1
+  m_Name: Asteroid 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +31,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3026304509547771529}
-  m_LocalRotation: {x: 0.0000000814605, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 63.1, y: 81.62, z: 33.50003}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children: []
@@ -85,34 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &654043983684725406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3026304509547771529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4b8c7d88eebb9940b3c4196017b84df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ExplosionForce: 200
-  fractured: {fileID: 7273956540791742907, guid: 9cb5e7465eef1af4988889e41a071493, type: 3}
---- !u!64 &7677147535206180335
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3026304509547771529}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6938710573835471721, guid: ba8ad55c52432c9458973a60328b3451, type: 3}
 --- !u!54 &5676548842011287167
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -129,6 +103,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &8114873054065938523
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3026304509547771529}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.3620865
+  m_Height: 3.179
+  m_Direction: 1
+  m_Center: {x: 0.17640948, y: -0.024290979, z: -0.291538}
 --- !u!114 &5676548842011287137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,5 +129,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3bccda82e9e5441b6c031deab71e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeathVFX: {fileID: 100004, guid: 2857e183f4cd3df4e9096e5b578bd32f, type: 3}
+  DeathVFX: {fileID: 5413415814102794711, guid: d0a289282ef070d4986829210b8d98f9, type: 3}
   MaxHealth: 4
+--- !u!114 &654043983684725406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3026304509547771529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b8c7d88eebb9940b3c4196017b84df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExplosionForce: 100
+  fractured: {fileID: 7273956540791742907, guid: 9cb5e7465eef1af4988889e41a071493, type: 3}
+--- !u!114 &-1825771947210607406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3026304509547771529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3fbfb80b6a056479c0e4a5d3746b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PhysicsDistance: 600
+  RotationRange: {x: -1, y: 1}
+  SpeedRange: {x: -10, y: 10}
+--- !u!114 &-7463730800611265906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3026304509547771529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d616db0a5b81c4142acca1c9dcc17d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

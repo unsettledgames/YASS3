@@ -14476,7 +14476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259fee599db79e9449d56a58c27b2e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 300
+  Speed: 200
   Damage: 1
 --- !u!54 &-5654505035745762534
 Rigidbody:
@@ -14507,6 +14507,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LifeTime: 3
+  ApplyToChildren: 0
+  FadeSpeed: 0
+  FadeMeshOpacity: 0
 --- !u!1 &2682720567233402821
 GameObject:
   m_ObjectHideFlags: 0

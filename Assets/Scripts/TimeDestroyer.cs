@@ -32,7 +32,7 @@ public class TimeDestroyer : MonoBehaviour
                 td.FadeMeshOpacity = FadeMeshOpacity;
             }
 
-            Destroy(GetComponent<TimeDestroyer>());
+            Destroy(this);
         }
 
         StartCoroutine(StartDestroying());
@@ -51,16 +51,14 @@ public class TimeDestroyer : MonoBehaviour
             }
             Color currColor = m_MeshRenderer.material.GetColor("_Color");
 
-            while (currColor.a > 0.0f)
+            while (currColor.a > 0.01f)
             {
                 currColor.a -= FadeSpeed * Time.deltaTime;
                 m_MeshRenderer.material.SetColor("_Color", currColor);
                 yield return new WaitForEndOfFrame();
             }
         }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+
+        Destroy(this.gameObject);
     }
 }
