@@ -11,8 +11,11 @@ GameObject:
   - component: {fileID: 3397979268326608753}
   - component: {fileID: 1767618535798915284}
   - component: {fileID: 4567530698866439198}
+  - component: {fileID: -5673502301541932254}
+  - component: {fileID: -7054646231396481009}
+  - component: {fileID: 7098620811882013633}
   m_Layer: 0
-  m_Name: Asteroid
+  m_Name: Asteroid2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2622181887687235019}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 20.195087, y: 56.317818, z: -16.597912}
   m_LocalScale: {x: 12.542189, y: 12.542189, z: 12.542189}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
 --- !u!33 &1767618535798915284
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81,3 +84,48 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5673502301541932254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2622181887687235019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3fbfb80b6a056479c0e4a5d3746b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PhysicsDistance: 200
+  RotationRange: {x: -0.1, y: 0.1}
+  SpeedRange: {x: -1, y: 1}
+--- !u!136 &-7054646231396481009
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2622181887687235019}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.9376202
+  m_Height: 2.3827505
+  m_Direction: 0
+  m_Center: {x: 0.002987658, y: -0.08116512, z: 0.03401453}
+--- !u!54 &7098620811882013633
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2622181887687235019}
+  serializedVersion: 2
+  m_Mass: 100
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -13,6 +13,7 @@ public class Fracture : MonoBehaviour
     {
         if (!this.gameObject.scene.isLoaded) return;
         GameObject instantiatedFracture = Instantiate(fractured, transform.position, transform.rotation); //Spawn in the broken version
+        instantiatedFracture.transform.localScale = transform.localScale;
 
         for (int i = 0; i < instantiatedFracture.transform.childCount; i++)
         {
