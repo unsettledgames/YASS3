@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/** AUTO AIM:
+ *  - Click to shoot in front of space ship
+ *  - Hold click to target an enemy and shoot at it: this makes the crosshair appear
+ *  - Crosshair always visible, just small. When an enemy is targetted, it becomes red and bigger
+ * 
+ */ 
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
@@ -46,13 +53,18 @@ public class PlayerController : MonoBehaviour
                 Rigidbody targetBody = m_Target.GetComponent<Rigidbody>();
                 Vector3 targetPosition = m_Target.transform.position;
 
-                if (Vector3.Angle(targetPosition.normalized, transform.forward) > MaxAutoAimAngle)
+                float angle = Vector3.Angle(targetPosition - transform.position,
+                    (transform.forward * (targetPosition - transform.position).magnitude));
+                Debug.Log("Angle: " + angle);
+
+                // Ignore when angle is too big
+                if (Mathf.Abs(angle) > MaxAutoAimAngle)
                     bulletDirection = transform.forward;
                 else
                 {
                     if (targetBody != null)
                         targetPosition += targetBody.velocity.normalized * TargetPredictionFactor;
-                    bulletDirection = targetPosition - transform.position;
+                    bulletDirection = (targetPosition - transform.position).normalized;
                 }
             }    
 
