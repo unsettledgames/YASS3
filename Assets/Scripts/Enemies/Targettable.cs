@@ -18,11 +18,11 @@ public class Targettable : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        FrequentlyAccessed.Instance.Player.SetTarget(this.gameObject);
+        FrequentlyAccessed.Instance.Player.Target = this.gameObject;
     }
 
     private void OnMouseExit()
     {
-        FrequentlyAccessed.Instance.Player.ResetTarget();
+        FrequentlyAccessed.Instance.Player.Target = null;
     }
 }

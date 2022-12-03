@@ -57,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 1669252775318672756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.113878, y: 63.392162, z: -156.2}
-  m_LocalScale: {x: 1, y: 1, z: 0.82407}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.4}
   m_Children:
   - {fileID: 5023795067394453247}
   - {fileID: 1669096588421613908}
@@ -93,9 +93,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5c78782965d91418263cb542f9f1a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpeed: 100
-  AccelerationSpeed: 5000
+  MaxSpeed: 50
+  AccelerationSpeed: 2500
   RotationSpeed: 100
+  HitRecoveryEasing: 0.5
+  TargetPredictionFactor: {x: 0, y: 3}
+  MaxAutoAimDistance: 200
+  MaxAutoAimAngle: 45
   Bullet: {fileID: 2236154257978472585, guid: 7d19509bffe799843837173679fe2d92, type: 3}
   LaserSpawns:
   - {fileID: 7040331665301686348}

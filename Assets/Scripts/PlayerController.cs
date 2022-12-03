@@ -18,7 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float HitRecoveryEasing;
 
     [Header("Shooting")]
-    [SerializeField] private float TargetPredictionFactor;
+    [SerializeField] private Vector2 TargetPredictionFactor;
+    [SerializeField] private float MaxAutoAimDistance;
     [SerializeField] private float MaxAutoAimAngle;
     [SerializeField] private GameObject Bullet;
     [SerializeField] private GameObject[] LaserSpawns;
@@ -52,18 +53,21 @@ public class PlayerController : MonoBehaviour
             {
                 Rigidbody targetBody = m_Target.GetComponent<Rigidbody>();
                 Vector3 targetPosition = m_Target.transform.position;
+                float targetDistance = Vector3.Distance(targetPosition, transform.position);
 
                 float angle = Vector3.Angle(targetPosition - transform.position,
                     (transform.forward * (targetPosition - transform.position).magnitude));
                 Debug.Log("Angle: " + angle);
 
                 // Ignore when angle is too big
-                if (Mathf.Abs(angle) > MaxAutoAimAngle)
+                if (Mathf.Abs(angle) > MaxAutoAimAngle || targetDistance >= MaxAutoAimDistance)
                     bulletDirection = transform.forward;
                 else
                 {
+                    float targetPrediction = Mathf.Lerp(TargetPredictionFactor.x, TargetPredictionFactor.y, 
+                        1.0f - targetDistance / MaxAutoAimDistance);
                     if (targetBody != null)
-                        targetPosition += targetBody.velocity.normalized * TargetPredictionFactor;
+                        targetPosition += targetBody.velocity.normalized * targetPrediction;
                     bulletDirection = (targetPosition - transform.position).normalized;
                 }
             }    
@@ -88,6 +92,5 @@ public class PlayerController : MonoBehaviour
         m_Rigidbody.rotation *= Quaternion.Euler(rotation * Time.deltaTime * RotationSpeed);
     }
 
-    public void SetTarget(GameObject target) { m_Target = target; }
-    public void ResetTarget() { m_Target = null; }
+    public GameObject Target  { get =>m_Target; set=>m_Target = value; }
 }

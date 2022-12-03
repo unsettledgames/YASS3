@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: ExplosionForce
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 2831925997593395288, guid: b0878f58e67a653499e343fd515e9eaa, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 96621212903710399, guid: 682ee21818288b2479d0ef113e82ba62, type: 3}
     - target: {fileID: 3026304509547771529, guid: b0878f58e67a653499e343fd515e9eaa, type: 3}
       propertyPath: m_Name
       value: Asteroid 5
@@ -79,6 +83,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7144746253826830258, guid: b0878f58e67a653499e343fd515e9eaa, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 96621212903710399, guid: a79249c6a0786184b8fb5bb4249b4eb1, type: 3}
     - target: {fileID: 7677147535206180335, guid: b0878f58e67a653499e343fd515e9eaa, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -103,6 +111,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.28531012
       objectReference: {fileID: 0}
+    - target: {fileID: 8649248734425793342, guid: b0878f58e67a653499e343fd515e9eaa, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 96621212903710399, guid: 21ef80d8775388341ab4590c3703d93f, type: 3}
     - target: {fileID: 8692049471087788532, guid: b0878f58e67a653499e343fd515e9eaa, type: 3}
       propertyPath: m_Mesh
       value: 
