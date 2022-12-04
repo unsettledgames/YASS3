@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Shooting")]
     [SerializeField] private Vector2 TargetPredictionFactor;
-    [SerializeField] private float MaxAutoAimDistance;
+    [SerializeField] private Vector2 AutoAimDistanceBounds;
     [SerializeField] private float MaxAutoAimAngle;
     [SerializeField] private GameObject Bullet;
     [SerializeField] private GameObject[] LaserSpawns;
@@ -60,14 +60,14 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Angle: " + angle);
 
                 // Ignore when angle is too big
-                if (Mathf.Abs(angle) > MaxAutoAimAngle || targetDistance >= MaxAutoAimDistance)
+                if (Mathf.Abs(angle) > MaxAutoAimAngle || targetDistance >= AutoAimDistanceBounds.y || targetDistance <= AutoAimDistanceBounds.x)
                     bulletDirection = transform.forward;
                 else
                 {
                     float targetPrediction = Mathf.Lerp(TargetPredictionFactor.x, TargetPredictionFactor.y, 
-                        1.0f - targetDistance / MaxAutoAimDistance);
+                        1.0f - (targetDistance - AutoAimDistanceBounds.x) / (AutoAimDistanceBounds.y - AutoAimDistanceBounds.x));
                     if (targetBody != null)
-                        targetPosition += targetBody.velocity.normalized * targetPrediction;
+                        targetPosition += targetBody.velocity * targetPrediction;
                     bulletDirection = (targetPosition - transform.position).normalized;
                 }
             }    

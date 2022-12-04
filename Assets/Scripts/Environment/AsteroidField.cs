@@ -30,7 +30,7 @@ public class AsteroidField : MonoBehaviour
 
             asteroidScale = Random.Range(ScaleBounds.x, ScaleBounds.y);
 
-            GameObject instance = Instantiate(Asteroids[Random.Range(0, Asteroids.Length - 1)], asteroidPos, Quaternion.Euler(asteroidPos));
+            GameObject instance = Instantiate(Asteroids[Random.Range(0, Asteroids.Length)], asteroidPos, Quaternion.Euler(asteroidPos));
             instance.transform.localScale *= asteroidScale;
 
             if (DelayBetweenSpawns > 0)

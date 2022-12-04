@@ -9,7 +9,7 @@ public class FrequentlyAccessed : MonoBehaviour
 
     public static FrequentlyAccessed Instance;
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
     }

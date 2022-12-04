@@ -1,0 +1,11 @@
+Model Information:
+* title:	Ceiling Turret
+* source:	https://sketchfab.com/3d-models/ceiling-turret-da5fc36e5d5c4af18cf69bf52afc6256
+* author:	lewis_drummerr (https://sketchfab.com/lewis_spalato)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Ceiling Turret" (https://sketchfab.com/3d-models/ceiling-turret-da5fc36e5d5c4af18cf69bf52afc6256) by lewis_drummerr (https://sketchfab.com/lewis_spalato) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyHealthManager : MonoBehaviour
 {
     public GameObject DeathVFX;
-    [SerializeField]
-    private float MaxHealth;
+    [SerializeField] private Vector3 ExplosionOffset;
+    [SerializeField] private float MaxHealth;
 
     private float m_CurrHealth;
     // Start is called before the first frame update
@@ -21,7 +21,7 @@ public class EnemyHealthManager : MonoBehaviour
 
         if (m_CurrHealth <= 0)
         {
-            Instantiate(DeathVFX, transform.position, Quaternion.Euler(Vector3.zero));
+            Instantiate(DeathVFX, transform.position + ExplosionOffset, Quaternion.Euler(Vector3.zero));
             Destroy(this.gameObject);
         }
     }
