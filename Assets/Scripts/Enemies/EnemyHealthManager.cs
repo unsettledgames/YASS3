@@ -21,6 +21,7 @@ public class EnemyHealthManager : MonoBehaviour
 
         if (m_CurrHealth <= 0)
         {
+            // TODO: offset should be relative
             Instantiate(DeathVFX, transform.position + ExplosionOffset, Quaternion.Euler(Vector3.zero));
             Destroy(this.gameObject);
         }

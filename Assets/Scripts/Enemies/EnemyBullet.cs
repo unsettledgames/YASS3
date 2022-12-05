@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
+    [SerializeField] private float Speed;
+    [SerializeField] private float Damage;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetComponent<Rigidbody>().velocity = transform.forward * Speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        PlayerHealthManager phm = other.GetComponentInParent<PlayerHealthManager>();
+        if (phm != null)
+        {
+            // TODO: instantiate VFX
+            phm.TakeDamage(Damage);
+            Destroy(this.gameObject);
+        }
     }
 }

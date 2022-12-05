@@ -20,11 +20,11 @@ public class PlayerBullet : MonoBehaviour
         if (other.tag.Equals("Enemy"))
         {
             // Get enemy health, reduce it
-            EnemyHealthManager enemyHealth = other.GetComponent<EnemyHealthManager>();
+            EnemyHealthManager enemyHealth = other.GetComponentInParent<EnemyHealthManager>();
             if (enemyHealth != null)
                 enemyHealth.TakeDamage(Damage);
 
-            // Instantiate vfx
+            // TODO: Instantiate vfx
 
             // Destroy
             Destroy(this.gameObject);
