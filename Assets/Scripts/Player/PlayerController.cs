@@ -13,7 +13,9 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float MaxSpeed;
+    [SerializeField] private float MaxDashSpeed;
     [SerializeField] private float AccelerationSpeed;
+    [SerializeField] private float DashSpeed;
     [SerializeField] private float RotationSpeed;
     [SerializeField] private float HitRecoveryEasing;
 
@@ -57,7 +59,6 @@ public class PlayerController : MonoBehaviour
 
                 float angle = Vector3.Angle(targetPosition - transform.position,
                     (transform.forward * (targetPosition - transform.position).magnitude));
-                Debug.Log("Angle: " + angle);
 
                 // Ignore when angle is too big
                 if (Mathf.Abs(angle) > MaxAutoAimAngle || targetDistance >= AutoAimDistanceBounds.y || targetDistance <= AutoAimDistanceBounds.x)
@@ -82,14 +83,21 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 input, rotation;
+        float dashMult = 1.0f;
+
+        if (Input.GetButton("Dash"))
+            dashMult = DashSpeed;
 
         input.x = Input.GetAxis("Horizontal"); input.y = Input.GetAxis("Vertical"); input.z = Input.GetAxis("Torque");
         rotation.y = input.x; rotation.x = -input.y; rotation.z = -input.z;
 
-        m_Rigidbody.velocity = transform.forward * Time.deltaTime * AccelerationSpeed;
-        m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, MaxSpeed);
-
+        m_Rigidbody.velocity = transform.forward * Time.deltaTime * AccelerationSpeed * dashMult;
         m_Rigidbody.rotation *= Quaternion.Euler(rotation * Time.deltaTime * RotationSpeed);
+
+        if (dashMult > 1.0f)
+            m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, MaxDashSpeed);
+        else
+            m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, MaxSpeed);
     }
 
     public GameObject Target  { get =>m_Target; set=>m_Target = value; }

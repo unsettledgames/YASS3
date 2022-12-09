@@ -18,14 +18,17 @@ public class Turret : MonoBehaviour
     [SerializeField] private float TriggerDistance;
 
     private PlayerController m_Player;
-    private float m_NextShootStartTime;
-    private float m_NextShootStopTime;
+    private Rigidbody m_PlayerRigidbody;
+    private float m_NextFlurryStart;
+    private float m_NextShootTime;
+    private float m_NextFlurryStop;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Player = FrequentlyAccessed.Instance.Player;
-        m_NextShootStartTime = Time.time + ShootRate;
-        m_NextShootStopTime = Time.time;
+        m_PlayerRigidbody = m_Player.GetComponent<Rigidbody>();
+        m_NextFlurryStart = Time.time + PauseDuration;
     }
 
     // Update is called once per frame
@@ -35,22 +38,27 @@ public class Turret : MonoBehaviour
         if (playerDistance < TriggerDistance)
         {
             AimAtPlayer();
-            Shoot();
+            Shoot(playerDistance);
         }
     }
 
-    void Shoot()
+    void Shoot(float playerDistance)
     {
         // TODO: turret autoaim
-        if (m_NextShootStopTime < m_NextShootStartTime)
-            m_NextShootStopTime = m_NextShootStartTime + FlurryDuration;
-
-        if (Time.time <= m_NextShootStopTime && Time.time >= m_NextShootStartTime)
+        if (Time.time >= m_NextFlurryStart && Time.time >= m_NextFlurryStop)
         {
-            GameObject projectile = Instantiate(Bullet, ShootSpawn.transform.position, Quaternion.Euler(Vector3.zero));
-            projectile.transform.LookAt(m_Player.transform.position);
+            m_NextFlurryStop = Time.time + FlurryDuration;
+            m_NextShootTime = Time.time + ShootRate;
+            StartCoroutine(ResetShootingTime());
+        }
 
-            m_NextShootStartTime = Time.time + ShootRate;
+        if (Time.time <= m_NextFlurryStop && Time.time >= m_NextFlurryStart && Time.time >= m_NextShootTime)
+        {
+            float predictionAmount = Mathf.Lerp(PredictionBounds.x, PredictionBounds.y, 1.0f - playerDistance / TriggerDistance);
+            GameObject projectile = Instantiate(Bullet, ShootSpawn.transform.position, Quaternion.Euler(Vector3.zero));
+            projectile.transform.LookAt(m_Player.transform.position + m_PlayerRigidbody.velocity * predictionAmount);
+
+            m_NextShootTime = Time.time + ShootRate;
         }
     }
 
@@ -68,8 +76,8 @@ public class Turret : MonoBehaviour
 
     IEnumerator ResetShootingTime()
     {
-        yield return new WaitForSeconds(PauseDuration);
+        yield return new WaitForSeconds(FlurryDuration);
 
-        m_NextShootStartTime = Time.time + m_NextShootStartTime;
+        m_NextFlurryStart = Time.time + PauseDuration;
     }
 }

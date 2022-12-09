@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyHealthManager : MonoBehaviour
 {
     public GameObject DeathVFX;
-    [SerializeField] private Vector3 ExplosionOffset;
+    public GameObject VFXSpawn;
     [SerializeField] private float MaxHealth;
 
     private float m_CurrHealth;
@@ -21,8 +21,11 @@ public class EnemyHealthManager : MonoBehaviour
 
         if (m_CurrHealth <= 0)
         {
+            Vector3 spawnPos = transform.position;
+            if (VFXSpawn != null)
+                spawnPos = VFXSpawn.transform.position;
             // TODO: offset should be relative
-            Instantiate(DeathVFX, transform.position + ExplosionOffset, Quaternion.Euler(Vector3.zero));
+            Instantiate(DeathVFX, spawnPos, Quaternion.Euler(Vector3.zero));
             Destroy(this.gameObject);
         }
     }
