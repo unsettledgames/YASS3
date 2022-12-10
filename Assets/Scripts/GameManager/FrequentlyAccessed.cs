@@ -5,7 +5,7 @@ using UnityEngine;
 public class FrequentlyAccessed : MonoBehaviour
 {
     public PlayerController Player;
-    public GameObject Camera;
+    public Camera Camera;
 
     public static FrequentlyAccessed Instance;
 

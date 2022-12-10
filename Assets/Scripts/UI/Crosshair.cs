@@ -13,6 +13,8 @@ public class Crosshair : MonoBehaviour
     [SerializeField] private Color EndColor;
 
     private Material m_Material;
+
+    private bool m_Locked = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,16 +24,29 @@ public class Crosshair : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float scale;
-        Color endColor;
+        float scale = SizeRange.x;
+        Color endColor = StartColor;
+
         transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
 
         if (FrequentlyAccessed.Instance.Player.Target != null)
         {
+            Vector3 targetPos = FrequentlyAccessed.Instance.Camera.WorldToScreenPoint(FrequentlyAccessed.Instance.Player.Target.transform.position);
             scale = Mathf.Min(transform.localScale.x + Time.deltaTime * ZoomSpeed, SizeRange.y);
-            endColor = EndColor;
+            transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
+
+            if (Input.GetButton("Fire1"))
+            {
+                endColor = EndColor;
+                m_Locked = true;
+            }
+            else
+            {
+                endColor = StartColor;
+                m_Locked = false;
+            }
         }
-        else
+        else if (!m_Locked)
         {
             scale = Mathf.Max(transform.localScale.x - Time.deltaTime * ZoomSpeed, SizeRange.x);
             endColor = StartColor;

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float HitRecoveryEasing;
 
     [Header("Shooting")]
+    [SerializeField] private float ShotRate;
     [SerializeField] private Vector2 TargetPredictionFactor;
     [SerializeField] private Vector2 AutoAimDistanceBounds;
     [SerializeField] private float MaxAutoAimAngle;
@@ -30,15 +31,18 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody m_Rigidbody;
 
+    private float m_NextShootTime;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_NextShootTime = Time.time + ShotRate;
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButton("Fire1"))
             ShootLasers();
 
         if (m_Rigidbody.angularVelocity.magnitude > 0.1f)
@@ -47,6 +51,9 @@ public class PlayerController : MonoBehaviour
 
     private void ShootLasers()
     {
+        if (Time.time < m_NextShootTime)
+            return;
+
         foreach (GameObject spawn in LaserSpawns)
         {
             Vector3 bulletDirection = transform.forward;
@@ -66,17 +73,23 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     float targetPrediction = Mathf.Lerp(TargetPredictionFactor.x, TargetPredictionFactor.y, 
-                        1.0f - (targetDistance - AutoAimDistanceBounds.x) / (AutoAimDistanceBounds.y - AutoAimDistanceBounds.x));
+                        (targetDistance - AutoAimDistanceBounds.x) / (AutoAimDistanceBounds.y - AutoAimDistanceBounds.x));
                     if (targetBody != null)
                         targetPosition += targetBody.velocity * targetPrediction;
                     bulletDirection = (targetPosition - transform.position).normalized;
                 }
-            }    
+            }
+            else
+            {
+                // TODO: directional aiming even without enemy, locking is an extra
+            }
 
             GameObject instantiated = Instantiate(Bullet, transform.position, Quaternion.Euler(Vector3.zero));
             instantiated.transform.LookAt(transform.position + bulletDirection);
             instantiated.transform.position = spawn.transform.position;
         }
+
+        m_NextShootTime = Time.time + ShotRate;
     }
 
     // Update is called once per frame

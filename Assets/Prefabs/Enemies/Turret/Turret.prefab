@@ -1039,7 +1039,7 @@ MonoBehaviour:
   ShootRate: 0.1
   FlurryDuration: 1.5
   PauseDuration: 3
-  TriggerDistance: 200
+  TriggerDistance: 300
 --- !u!54 &889873140613204279
 Rigidbody:
   m_ObjectHideFlags: 0
