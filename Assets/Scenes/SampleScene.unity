@@ -170,7 +170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &74047907
 Transform:
   m_ObjectHideFlags: 0
@@ -5973,36 +5973,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1669096588421613907, guid: b7b16dba561a3c34e8b75fee1a090976, type: 3}
   m_PrefabInstance: {fileID: 1669096589873901000}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1587696283 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8898931480525633797, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
-  m_PrefabInstance: {fileID: 6860570764739411263}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &1587696285
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587696283}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: -0.31}
---- !u!114 &1587696286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587696283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d616db0a5b81c4142acca1c9dcc17d6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1668197054
 GameObject:
   m_ObjectHideFlags: 0
@@ -6116,29 +6086,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5c78782965d91418263cb542f9f1a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1458392227225869 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6859134672050150450, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
-  m_PrefabInstance: {fileID: 6860570764739411263}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1458392227225870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458392227225869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7e7a93157e44804384476c5a02118d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WanderAreaRadius: 0
-  MinDistanceFromPlayer: 0
-  ReturnWaitTime: 0
-  PlayerPredictionAmount: 0
-  Speed: 0
-  CollisionDetectionAmount: 0
 --- !u!1001 &871278694850545704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6281,7 +6228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1669096588679534273, guid: b7b16dba561a3c34e8b75fee1a090976, type: 3}
       propertyPath: MaxSpeed
-      value: 40
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1669096588679534273, guid: b7b16dba561a3c34e8b75fee1a090976, type: 3}
       propertyPath: ShotRate
@@ -6293,7 +6240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1669096588679534273, guid: b7b16dba561a3c34e8b75fee1a090976, type: 3}
       propertyPath: MaxDashSpeed
-      value: 75
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1669096588679534273, guid: b7b16dba561a3c34e8b75fee1a090976, type: 3}
       propertyPath: RotationSpeed
@@ -6309,7 +6256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1669096588679534273, guid: b7b16dba561a3c34e8b75fee1a090976, type: 3}
       propertyPath: AutoAimDistanceBounds.x
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1669096588679534273, guid: b7b16dba561a3c34e8b75fee1a090976, type: 3}
       propertyPath: AutoAimDistanceBounds.y
@@ -6393,6 +6340,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: MaxSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: FleeSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: ZigZagRate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: NormalSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: SafeDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: ZigZagAmount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: TargetChangeRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: WanderAreaRadius
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: MinDistanceFromPlayer
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458392227225870, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
+      propertyPath: PlayerPredictionAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6859134672050150450, guid: 30af18d005d28154dbf0d17f611704bb, type: 3}
       propertyPath: m_Name
       value: Wanderer

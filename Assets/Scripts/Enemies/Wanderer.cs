@@ -17,33 +17,39 @@ public class Wanderer : MonoBehaviour
     [SerializeField] private float WanderAreaRadius;
     [SerializeField] private float MinDistanceFromPlayer;
     [SerializeField] private float SafeDistance;
-    [SerializeField] private float ReturnWaitTime;
     [SerializeField] private float PlayerPredictionAmount;
     [SerializeField] private float TargetChangeRate;
 
     [Header("Movement")]
-    [SerializeField] private float MaxSpeed;
+    [SerializeField] private float NormalSpeed;
+    [SerializeField] private float FleeSpeed;
     [SerializeField] private float SteeringSpeed;
+    [SerializeField] private float ZigZagRate;
+    [SerializeField] private float ZigZagAmount;
     [SerializeField] private float CollisionDetectionAmount;
 
     private Rigidbody m_Rigidbody;
+    private Rigidbody m_PlayerBody;
     private PlayerController m_Player;
 
     private Vector3 m_StartPos;
     private Vector3 m_TargetPos;
+    private Vector3 m_CurrFleeOffset;
 
     private Coroutine m_PositionRoutine;
     private State m_CurrState;
+    private float m_NextZigZagChangeTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
         m_Player = FrequentlyAccessed.Instance.Player;
+        m_Rigidbody = GetComponent<Rigidbody>();
+        m_PlayerBody = m_Player.GetComponent<Rigidbody>();
 
         m_StartPos = transform.position;
         m_Rigidbody.velocity = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 
-            Random.Range(-1.0f, 1.0f)).normalized * MaxSpeed;
+            Random.Range(-1.0f, 1.0f)).normalized * NormalSpeed;
 
         m_PositionRoutine = StartCoroutine(ChangeTarget());
         m_CurrState = State.Wander;
@@ -70,7 +76,7 @@ public class Wanderer : MonoBehaviour
                 m_Rigidbody.velocity = Return();
                 break;
             default:
-                m_Rigidbody.velocity = transform.forward * MaxSpeed;
+                m_Rigidbody.velocity = transform.forward * NormalSpeed;
                 break;
         }
 
@@ -111,6 +117,8 @@ public class Wanderer : MonoBehaviour
                     m_PositionRoutine = StartCoroutine(ChangeTarget());
                     m_CurrState = State.Wander;
                 }
+                else if (playerDistance < MinDistanceFromPlayer)
+                    m_CurrState = State.Flee;
                 break;
             default:
                 break;
@@ -123,12 +131,28 @@ public class Wanderer : MonoBehaviour
         Vector3 currVelocity = m_Rigidbody.velocity.normalized;
         Vector3 steeringForce = desiredVelocity - currVelocity;
 
-        return (m_Rigidbody.velocity + steeringForce * SteeringSpeed).normalized * MaxSpeed;
+        return (m_Rigidbody.velocity + steeringForce * SteeringSpeed).normalized * NormalSpeed;
     }
 
     private Vector3 Flee()
     {
-        return (transform.position - m_Player.transform.position).normalized * MaxSpeed;
+        if (Time.time >= m_NextZigZagChangeTime)
+        {
+            for (int i = 0; i < 2; i++)
+                m_CurrFleeOffset[i] = Random.Range(-ZigZagAmount, ZigZagAmount);
+            m_CurrFleeOffset.z = 0;
+
+            m_NextZigZagChangeTime = Time.time + ZigZagRate;
+        }
+
+        // Transform offset to be local
+        Vector3 localOffset = transform.TransformPoint(m_CurrFleeOffset);
+        Vector3 current = m_Rigidbody.velocity;
+        Vector3 target = (transform.position - (m_Player.transform.position +
+            m_PlayerBody.velocity.normalized * PlayerPredictionAmount + localOffset)).normalized * FleeSpeed;
+        Vector3 steering = target - current;
+
+        return m_Rigidbody.velocity + steering * SteeringSpeed;
     }
 
     private Vector3 Return()
@@ -137,7 +161,7 @@ public class Wanderer : MonoBehaviour
         Vector3 currVelocity = m_Rigidbody.velocity.normalized;
         Vector3 steeringForce = desiredVelocity - currVelocity;
 
-        return (m_Rigidbody.velocity + steeringForce * SteeringSpeed).normalized * MaxSpeed;
+        return (m_Rigidbody.velocity + steeringForce * SteeringSpeed).normalized * Mathf.Lerp(NormalSpeed, FleeSpeed, 0.5f);
     }
 
     private IEnumerator ChangeTarget()
