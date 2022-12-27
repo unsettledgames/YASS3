@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Shooting")]
     [SerializeField] private float ShotRate;
-    [SerializeField] private Vector2 TargetPredictionFactor;
     [SerializeField] private Vector2 AutoAimDistanceBounds;
     [SerializeField] private float MaxAutoAimAngle;
     [SerializeField] private GameObject Bullet;
@@ -30,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private GameObject m_Target = null;
 
     private Rigidbody m_Rigidbody;
+    private PlayerBullet m_BulletData;
 
     private float m_NextShootTime;
 
@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_BulletData = Bullet.GetComponent<PlayerBullet>();
+
         m_NextShootTime = Time.time + ShotRate;
     }
 
@@ -72,11 +74,19 @@ public class PlayerController : MonoBehaviour
                     bulletDirection = transform.forward;
                 else
                 {
-                    float targetPrediction = Mathf.Lerp(TargetPredictionFactor.x, TargetPredictionFactor.y, 
-                        (targetDistance - AutoAimDistanceBounds.x) / (AutoAimDistanceBounds.y - AutoAimDistanceBounds.x));
-                    if (targetBody != null)
-                        targetPosition += targetBody.velocity * targetPrediction;
-                    bulletDirection = (targetPosition - transform.position).normalized;
+                    Vector3 currentTarget = targetPosition;
+                    float currDistance = targetDistance;
+                    for (int i=0; i<10; i++)
+                    {
+                        // Time that the bullet takes to reach the enemy
+                        float projectileTime = currDistance / m_BulletData.GetSpeed();
+                        // Where the enemy will be in that time
+                        currentTarget = targetPosition + targetBody.velocity * projectileTime;
+                        currDistance = Vector3.Distance(currentTarget, transform.position);
+                    }
+
+                    // Bullet direction
+                    bulletDirection = (currentTarget - transform.position).normalized;
                 }
             }
             else
@@ -87,6 +97,7 @@ public class PlayerController : MonoBehaviour
             GameObject instantiated = Instantiate(Bullet, transform.position, Quaternion.Euler(Vector3.zero));
             instantiated.transform.LookAt(transform.position + bulletDirection);
             instantiated.transform.position = spawn.transform.position;
+            instantiated.transform.GetComponent<PlayerBullet>().SetTarget(m_Target);
         }
 
         m_NextShootTime = Time.time + ShotRate;

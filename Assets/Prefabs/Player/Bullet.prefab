@@ -14478,6 +14478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 200
   Damage: 1
+  MaxAdjustingTime: 1
 --- !u!54 &-5654505035745762534
 Rigidbody:
   m_ObjectHideFlags: 0

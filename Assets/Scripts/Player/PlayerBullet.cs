@@ -8,11 +8,31 @@ public class PlayerBullet : MonoBehaviour
     private float Speed;
     [SerializeField]
     private float Damage;
+    [SerializeField]
+    private float MaxAdjustingTime;
+
+    private GameObject m_Target;
+    private Rigidbody m_Rigidbody;
+    private Rigidbody m_TargetBody;
+
+    private float m_StopAdjustingTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Rigidbody>().velocity = transform.forward * Speed;
+        m_Rigidbody = GetComponent<Rigidbody>();
+        m_Rigidbody.velocity = transform.forward * Speed;
+
+        m_StopAdjustingTime = Time.time + MaxAdjustingTime;
+    }
+
+    private void Update()
+    {
+        if (Time.time <= m_StopAdjustingTime && m_TargetBody != null)
+        {
+            Vector3 targetVelocity = (m_TargetBody.position - transform.position).normalized * Speed;
+            m_Rigidbody.velocity += (targetVelocity - m_Rigidbody.velocity).normalized * 1.0f;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -29,5 +49,13 @@ public class PlayerBullet : MonoBehaviour
             // Destroy
             Destroy(this.gameObject);
         }
+    }
+
+    public float GetSpeed() { return Speed; }
+    public void SetTarget(GameObject target) 
+    { 
+        m_Target = target; 
+        if (m_Target != null)
+            m_TargetBody = m_Target.GetComponent<Rigidbody>(); 
     }
 }

@@ -1035,7 +1035,7 @@ MonoBehaviour:
   RotateY: {fileID: 2677133289342008785}
   RotateX: {fileID: 628840538765507459}
   ShootSpawn: {fileID: 1388207094}
-  PredictionBounds: {x: 0.2, y: 4}
+  PredictionBounds: {x: 0.2, y: 6}
   ShootRate: 0.1
   FlurryDuration: 1.5
   PauseDuration: 3
