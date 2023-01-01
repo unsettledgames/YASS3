@@ -29,4 +29,9 @@ public class EnemyHealthManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    public float GetCurrentHealth()
+    {
+        return m_CurrHealth;
+    }
 }

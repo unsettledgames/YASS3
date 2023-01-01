@@ -31,6 +31,7 @@ public class Wanderer : MonoBehaviour
     private Rigidbody m_Rigidbody;
     private Rigidbody m_PlayerBody;
     private PlayerController m_Player;
+    private EnemyHealthManager m_HealthManager;
 
     private Vector3 m_StartPos;
     private Vector3 m_TargetPos;
@@ -39,6 +40,8 @@ public class Wanderer : MonoBehaviour
     private Coroutine m_PositionRoutine;
     private State m_CurrState;
     private float m_NextZigZagChangeTime;
+    private float m_NextStopFleeTime;
+    private float m_PrevHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +49,7 @@ public class Wanderer : MonoBehaviour
         m_Player = FrequentlyAccessed.Instance.Player;
         m_Rigidbody = GetComponent<Rigidbody>();
         m_PlayerBody = m_Player.GetComponent<Rigidbody>();
+        m_HealthManager = GetComponent<EnemyHealthManager>();
 
         m_StartPos = transform.position;
         m_Rigidbody.velocity = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 
@@ -53,13 +57,15 @@ public class Wanderer : MonoBehaviour
 
         m_PositionRoutine = StartCoroutine(ChangeTarget());
         m_CurrState = State.Wander;
+        m_NextStopFleeTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
         ManageState();
-        Debug.DrawLine(transform.position, m_TargetPos, Color.green);
+
+        m_PrevHealth = m_HealthManager.GetCurrentHealth();
     }
 
     private void FixedUpdate()
@@ -98,16 +104,22 @@ public class Wanderer : MonoBehaviour
                     m_PositionRoutine = StartCoroutine(ChangeTarget());
                 }
 
-                // Flee if the player is too near
+                // Flee if the player is too near or if you've been hit
                 if (playerDistance < MinDistanceFromPlayer)
                 {
                     StopCoroutine(m_PositionRoutine);
                     m_CurrState = State.Flee;
                 }
+                else if (m_PrevHealth > m_HealthManager.GetCurrentHealth())
+                {
+                    StopCoroutine(m_PositionRoutine);
+                    m_CurrState = State.Flee;
+                    m_NextStopFleeTime = Time.time + 5.0f;
+                }
                 break;
             case State.Flee:
                 // Enemy is safe, return to base
-                if (playerDistance > SafeDistance)
+                if (playerDistance > SafeDistance && Time.time >= m_NextStopFleeTime)
                     m_CurrState = State.Return;
                 break;
             case State.Return:
@@ -146,7 +158,7 @@ public class Wanderer : MonoBehaviour
         }
 
         // Transform offset to be local
-        Vector3 localOffset = transform.TransformPoint(m_CurrFleeOffset);
+        Vector3 localOffset = m_CurrFleeOffset;
         Vector3 current = m_Rigidbody.velocity;
         Vector3 target = (transform.position - (m_Player.transform.position +
             m_PlayerBody.velocity.normalized * PlayerPredictionAmount + localOffset)).normalized * FleeSpeed;

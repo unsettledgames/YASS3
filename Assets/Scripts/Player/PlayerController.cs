@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
             if (m_Target != null)
             {
-                Rigidbody targetBody = m_Target.GetComponent<Rigidbody>();
+                Rigidbody targetBody = m_Target.GetComponentInParent<Rigidbody>();
                 Vector3 targetPosition = m_Target.transform.position;
                 float targetDistance = Vector3.Distance(targetPosition, transform.position);
 
